@@ -21,7 +21,7 @@ TEST_CASE("infers the breach according to limits")
 
 
 
-TEST_CASE("classifyTemperatureBreach the breach according to limits") 
+TEST_CASE("Classify Temperature Breach according to limits") 
 {
 
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, 30) == NORMAL);
@@ -39,7 +39,7 @@ TEST_CASE("classifyTemperatureBreach the breach according to limits")
 
 
 
-TEST_CASE("test check and alert") 
+TEST_CASE("Test Alert system") 
 {
   batteryCharTest.coolingType = CoolingType::PASSIVE_COOLING;
   checkAndAlert(TO_CONTROLLER, batteryCharTest , 30);
@@ -55,14 +55,14 @@ TEST_CASE("test check and alert")
 }
 
 
-TEST_CASE("test send to controller") 
+TEST_CASE("Test Alert to controller") 
 {
   sendAlertToController(NORMAL);
   sendAlertToController(TOO_LOW);
   sendAlertToController(TOO_HIGH);
 }
 
-TEST_CASE("test send to email") 
+TEST_CASE("Test Alert to email") 
 {
   sendAlertToEmail(NORMAL);
   sendAlertToEmail(TOO_LOW);
