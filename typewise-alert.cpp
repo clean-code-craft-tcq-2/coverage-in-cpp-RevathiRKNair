@@ -1,4 +1,5 @@
 #include "typewise-alert.h"
+#include <string>
 #include <stdio.h>
 
 std::map < BreachType, const char*> alertMessageMap = {
@@ -13,35 +14,40 @@ std::map < CoolingType, Limit> coolingTypeLimits = {
 };
 
 
+vector<string> EmailRecepientList {"abc@bosch.com"};
+
+vector<int> ControllerList {0xfeed};
 
 
 
-bool sendAlertToController(BreachType breachType) 
+
+void sendAlertToController(BreachType breachType) 
 {
-  const unsigned short header = 0xfeed;
+  vector<int>::iterator ControllerListIt = ControllerList.begin();
+  for(;ControllerListIt !=ControllerList.end(); ControllerListIt++)
+  {
+    printf("%x : %x\n", *ControllerListIt, breachType);
 
-  printf("%x : %x\n", header, breachType);
-
-  return true;
+  }
 }
 
 
 
-bool sendAlertToEmail(BreachType breachType) 
+void sendAlertToEmail(BreachType breachType) 
 {
-  const char* recepient = "a.b@c.com";
-  
-  if(breachType != NORMAL)
+  vector<string>::iterator EmailRecepientListIt = EmailRecepientList.begin();
+
+  for(;EmailRecepientListIt !=EmailRecepientList.end(); EmailRecepientListIt++)
   {
-    const char* breachMessage = alertMessageMap[breachType];
-    printf("To: %s\n", recepient);
-    printf("%s\n", breachMessage);
-    return true;
+    std::string recepient = *EmailRecepientListIt;
+    if(breachType != NORMAL)
+    {
+      const char* breachMessage = alertMessageMap[breachType];
+      printf("To: %s\n", recepient);
+      printf("%s\n", breachMessage);
+    }
   }
-  else
-  {
-    return false;
-  }
+
 }
 
 void sendAlert(AlertTarget target, BreachType breachType)
@@ -69,8 +75,8 @@ BreachType inferBreach(double value, Limit limits) {
 
 Limit getLimitsForCoolingType(CoolingType coolingType)
 {
-
   Limit thresholdLimits;
+
   std::map < CoolingType, Limit>::iterator it = coolingTypeLimits.find(coolingType);
 
   if(it != coolingTypeLimits.end())

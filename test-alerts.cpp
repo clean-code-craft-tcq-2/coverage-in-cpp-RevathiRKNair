@@ -6,7 +6,8 @@
 BatteryCharacter batteryCharTest;
 
 
-TEST_CASE("infers the breach according to limits") {
+TEST_CASE("infers the breach according to limits") 
+{
   Limit lowerLimit = {25,35};
   REQUIRE(inferBreach(12, lowerLimit) == TOO_LOW);
   
@@ -20,7 +21,8 @@ TEST_CASE("infers the breach according to limits") {
 
 
 
-TEST_CASE("classifyTemperatureBreach the breach according to limits") {
+TEST_CASE("classifyTemperatureBreach the breach according to limits") 
+{
 
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, 30) == NORMAL);
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, -10) == TOO_LOW);
@@ -37,7 +39,8 @@ TEST_CASE("classifyTemperatureBreach the breach according to limits") {
 
 
 
-TEST_CASE("test check and alert") {
+TEST_CASE("test check and alert") 
+{
   batteryCharTest.coolingType = CoolingType::PASSIVE_COOLING;
   checkAndAlert(TO_CONTROLLER, batteryCharTest , 30);
   checkAndAlert(TO_EMAIL, batteryCharTest , 35) ;
@@ -52,14 +55,16 @@ TEST_CASE("test check and alert") {
 }
 
 
-TEST_CASE("test send to controller") {
-  REQUIRE(sendAlertToController(NORMAL) == true);
-  REQUIRE(sendAlertToController(TOO_LOW) == true);
-  REQUIRE(sendAlertToController(TOO_HIGH) == true);
+TEST_CASE("test send to controller") 
+{
+  sendAlertToController(NORMAL);
+  sendAlertToController(TOO_LOW);
+  sendAlertToController(TOO_HIGH);
 }
 
-TEST_CASE("test send to email") {
-  REQUIRE(sendAlertToEmail(NORMAL) == false);
-  REQUIRE(sendAlertToEmail(TOO_LOW) == true);
-  REQUIRE(sendAlertToEmail(TOO_HIGH) == true);
+TEST_CASE("test send to email") 
+{
+  sendAlertToEmail(NORMAL);
+  sendAlertToEmail(TOO_LOW);
+  sendAlertToEmail(TOO_HIGH);
 }
